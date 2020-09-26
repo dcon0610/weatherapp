@@ -26,7 +26,7 @@ $(document).ready(function(){
       //API called, with error returning no city found if mis-spelled and empties the divs of previous data. Otherwise the promise returns all data and attaches it to paragraphs
       //on the right hand side of the page   
     $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/weather?q=" + city +"&appid="+APIkey,
+        url: "https://api.openweathermap.org/data/2.5/weather?q=" + city +"&appid="+APIkey,
         method: "GET",
         error: function (xhr){
         if(xhr.status !==200) {
@@ -53,7 +53,7 @@ $(document).ready(function(){
      
       //latitude and longitude stored in the previous API is used to find the UV index.
       $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/uvi?lat=" + latitude  +"&lon=" + longitude +"&appid=" + APIkey,
+        url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude  +"&lon=" + longitude +"&appid=" + APIkey,
         method: "GET",
         error: function (xhr){
           if(xhr.status !==200) {
@@ -65,7 +65,7 @@ $(document).ready(function(){
     //this searches for the forecast data at 3 pm in the relevant city and displays it in cards. If error returned, cards are emtied of previous data.
     //Icons are searched from the relevant URL, and the icon code found in the API. 
       $.ajax({
-        url: "http://api.openweathermap.org/data/2.5/forecast/?q=" + city +"&appid="+APIkey,
+        url: "https://api.openweathermap.org/data/2.5/forecast/?q=" + city +"&appid="+APIkey,
         method: "GET",
         error: function (xhr){
           if(xhr.status !==200) {
