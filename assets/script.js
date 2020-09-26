@@ -6,7 +6,7 @@ $(document).ready(function(){
     var k=0
     var listItem=[]
 
-      
+  //display cities previously searched by looping through local storage
     for (i=1;i<localStorage.length+1; i++){
       listItem[i]=localStorage.getItem(i)
       console.log("listitem",listItem[i])
@@ -15,7 +15,7 @@ $(document).ready(function(){
       $('#search_history').append(history)
       $("#"+i+"history").html(listItem[i])
 } 
-    
+    //if enter pressed, city weather data function entered
     $('#search').keypress(function (e) {
         var key = e.which;
         if(key == 13){
@@ -23,7 +23,8 @@ $(document).ready(function(){
             k=localStorage.length
             localStorage.setItem(k+1,city)
             
-           
+      //API called, with error returning no city found if mis-spelled and empties the divs of previous data. Otherwise the promise returns all data and attaches it to paragraphs
+      //on the right hand side of the page   
     $.ajax({
         url: "http://api.openweathermap.org/data/2.5/weather?q=" + city +"&appid="+APIkey,
         method: "GET",
@@ -50,7 +51,7 @@ $(document).ready(function(){
         console.log(latitude, longitude)
         
      
-      
+      //latitude and longitude stored in the previous API is used to find the UV index.
       $.ajax({
         url: "http://api.openweathermap.org/data/2.5/uvi?lat=" + latitude  +"&lon=" + longitude +"&appid=" + APIkey,
         method: "GET",
@@ -61,7 +62,8 @@ $(document).ready(function(){
         $('#UV_index').html("UV Index: " + response.value)
       })
     })
-
+    //this searches for the forecast data at 3 pm in the relevant city and displays it in cards. If error returned, cards are emtied of previous data.
+    //Icons are searched from the relevant URL, and the icon code found in the API. 
       $.ajax({
         url: "http://api.openweathermap.org/data/2.5/forecast/?q=" + city +"&appid="+APIkey,
         method: "GET",
@@ -78,7 +80,7 @@ $(document).ready(function(){
         var forecastIcon=[]
         j=0
         for(i=0; i<response.list.length; i++)
-        
+        //15 is 3 pm in 24 hour time
          if(moment(response.list[i].dt_txt).format("HH")==="15"){
            console.log(i)
           forecastTemp[j]=Math.round(response.list[i].main.temp-273.15)
@@ -91,7 +93,6 @@ $(document).ready(function(){
 
          }
         
-         console.log(forecastTemp, forecastHumidity, forecastDate)
          $("#cards").empty()
         $('#forecast').html('<h2>'+"5-Day Forecast:"+'</h2>')
         for (i=0; i<5; i++){
